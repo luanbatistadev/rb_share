@@ -218,7 +218,7 @@ class _ServerWidgetState extends State<ServerWidget> {
                 controller: _fileDirectoryTextController,
                 keyboardType: TextInputType.text,
                 decoration: InputDecoration(
-                  hintText: 'Pick the sharing path here',
+                  hintText: 'Escolha o diretório de compartilhamento',
                   hintStyle: const TextStyle(color: Colors.black26),
                   enabledBorder: OutlineInputBorder(
                     borderSide: BorderSide(color: Colors.black12.withOpacity(0.2), width: 1.2),
@@ -290,7 +290,7 @@ class _ServerWidgetState extends State<ServerWidget> {
           color: isServerStarted ? textIconButtonColorActivated : textIconButtonColor,
         ),
         label: Text(
-          isServerStarted ? 'Stop hosting' : 'Start hosting',
+          isServerStarted ? 'Parar hosting' : 'Iniciar hosting',
           style: CommonTextStyle.textStyleNormal.copyWith(
             color: isServerStarted ? textIconButtonColorActivated : textIconButtonColor,
           ),
@@ -361,7 +361,7 @@ class _ServerWidgetState extends State<ServerWidget> {
     final address = '$ipAddress:$port';
     final dir = Directory(_fileDirectoryTextController.text);
     if (!dir.existsSync()) {
-      context.showSnackbar('Sharing path does not exist. Try again!');
+      context.showSnackbar('O caminho de compartilhamento não existe! Tente novamente.');
       return;
     }
 
@@ -405,7 +405,8 @@ class _ServerWidgetState extends State<ServerWidget> {
 
       getIt.get<PrefData>().saveLastHostedAddress(address);
       _exposeLogger(
-          message: 'Start server at http://${_serverNotifier.value?.address.host}:${_serverNotifier.value?.port}');
+          message:
+              'Iniciando servidor em http://${_serverNotifier.value?.address.host}:${_serverNotifier.value?.port}');
     } catch (e) {
       debugPrint(e.toString());
       _stopHosting(isForce: false);
@@ -413,7 +414,7 @@ class _ServerWidgetState extends State<ServerWidget> {
   }
 
   void _stopHosting({required isForce}) {
-    _exposeLogger(message: 'Stop server...');
+    _exposeLogger(message: 'Finalizando servidor...');
     _isHostingNotifier.value = !_isHostingNotifier.value;
     _serverNotifier.value?.close(force: isForce);
   }

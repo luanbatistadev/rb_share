@@ -111,19 +111,19 @@ SPEC CHECKSUMS:
   DKImagePickerController: b512c28220a2b8ac7419f21c491fc8534b7601ac
   DKPhotoGallery: fdfad5125a9fdda9cc57df834d49df790dbb4179
   file_picker: 15fd9539e4eb735dc54bae8c0534a7a9511a03de
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   flutter_downloader: b7301ae057deadd4b1650dc7c05375f10ff12c39
   MTBBarcodeScanner: f453b33c4b7dfe545d8c6484ed744d55671788cb
   network_info_plus: 6d0c3eb8367b8164fa3fb0c19875e3f59d49697f
   open_filex: 6e26e659846ec990262224a12ef1c528bb4edbe4
-  path_provider_foundation: 29f094ae23ebbca9d3d0cec13889cd9060c0e943
+  path_provider_foundation: 3784922295ac71e43754bd15e0653ccfd36a147c
   permission_handler_apple: e76247795d700c14ea09e3a2d8855d41ee80a2e6
   qr_code_scanner: bb67d64904c3b9658ada8c402e8b4d406d5d796e
   SDWebImage: a81bbb3ba4ea5f810f4069c68727cb118467a04a
   share_plus: c3fef564749587fc939ef86ffb283ceac0baf9f5
-  shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
+  shared_preferences_foundation: b4c3b4cddf1c21f02770737f147a3f5da9d39695
   SwiftyGif: 93a1cc87bf3a51916001cf8f3d63835fb64c819f
 
-PODFILE CHECKSUM: 834277392b09fd00b4d643a095006550ac75a7f1
+PODFILE CHECKSUM: 68b071c22ee72de5e9604704956c0e5b930990e3
 
 COCOAPODS: 1.13.0

@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-
 import 'package:path/path.dart' as path;
 import 'package:provider/provider.dart';
 import 'package:rb_share/src/core/constansts/api_service.dart';
@@ -168,7 +167,7 @@ class _SendWidgetState extends State<SendWidget> {
               const Icon(Icons.add_box, color: Colors.white),
               const SizedBox(width: 8.0),
               Text(
-                'Pick files',
+                'Escolher arquivos',
                 style: CommonTextStyle.textStyleNormal.copyWith(color: Colors.white),
               ),
             ],
@@ -176,7 +175,8 @@ class _SendWidgetState extends State<SendWidget> {
         ),
       );
 
-  _mainListFiles() => _pickedFiles.isEmpty ? const EmptyWidget(message: 'No picked file') : _buildListPickedFiles();
+  _mainListFiles() =>
+      _pickedFiles.isEmpty ? const EmptyWidget(message: 'Nenhum arquivo escolhido') : _buildListPickedFiles();
 
   _buildListPickedFiles() {
     final scrollController = ScrollController();
@@ -209,37 +209,39 @@ class _SendWidgetState extends State<SendWidget> {
     );
   }
 
-  _buttonUpload() => Container(
-        margin: const EdgeInsets.only(bottom: 16.0),
-        child: FloatingActionButton.extended(
-          onPressed: () {
-            if (_pickedFiles.isNotEmpty) {
-              _startUploading(context, _pickedFiles);
-            }
-          },
-          label: Row(
-            children: [
-              Text(
-                'Upload files',
-                style: CommonTextStyle.textStyleNormal.copyWith(
-                  fontSize: 14.0,
-                  color: textIconButtonColor,
+  _buttonUpload() => SafeArea(
+        child: Container(
+          margin: const EdgeInsets.only(bottom: 16.0),
+          child: FloatingActionButton.extended(
+            onPressed: () {
+              if (_pickedFiles.isNotEmpty) {
+                _startUploading(context, _pickedFiles);
+              }
+            },
+            label: Row(
+              children: [
+                Text(
+                  'Enviar arquivos',
+                  style: CommonTextStyle.textStyleNormal.copyWith(
+                    fontSize: 14.0,
+                    color: textIconButtonColor,
+                  ),
                 ),
-              ),
-              const SizedBox(width: 8.0),
-              ValueListenableBuilder(
-                valueListenable: _isUploading,
-                builder: (context, value, child) => value
-                    ? const SizedBox(
-                        width: 16.0,
-                        height: 16.0,
-                        child: CircularProgressIndicator(strokeWidth: 2.0),
-                      )
-                    : const SizedBox.shrink(),
-              ),
-            ],
+                const SizedBox(width: 8.0),
+                ValueListenableBuilder(
+                  valueListenable: _isUploading,
+                  builder: (context, value, child) => value
+                      ? const SizedBox(
+                          width: 16.0,
+                          height: 16.0,
+                          child: CircularProgressIndicator(strokeWidth: 2.0),
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ],
+            ),
+            icon: const Icon(Icons.upload, color: textIconButtonColor),
           ),
-          icon: const Icon(Icons.upload, color: textIconButtonColor),
         ),
       );
 
@@ -268,10 +270,10 @@ class _SendWidgetState extends State<SendWidget> {
     final result = await getIt<ApiService>().uploadFile(files: files);
     result.fold(
       (l) {
-        context.showSnackbar('Failed to upload');
+        context.showSnackbar('Falha ao enviar arquivos!');
       },
       (r) {
-        context.showSnackbar('Upload successful');
+        context.showSnackbar('Enviando com sucesso!');
         context.read<FileProvider>().addAllSharedFiles(sharedFiles: r.toSet(), isAppending: true);
 
         Future.delayed(const Duration(seconds: 1), () => Navigator.of(context).pop());

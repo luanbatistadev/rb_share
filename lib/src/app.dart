@@ -24,7 +24,7 @@ class RBShareApp extends StatelessWidget {
                   SizedBox(
                     width: 4,
                   ),
-                  Text('Share'),
+                  Text('Enviar'),
                 ],
               ),
             ),
@@ -42,7 +42,7 @@ class RBShareApp extends StatelessWidget {
                   SizedBox(
                     width: 4,
                   ),
-                  Text('Receive'),
+                  Text('Receber'),
                 ],
               ),
             ),

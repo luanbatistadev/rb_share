@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-
 import 'package:provider/provider.dart';
 import 'package:rb_share/src/core/constansts/pref_data.dart';
 import 'package:rb_share/src/core/di/di.dart';
@@ -12,7 +11,6 @@ import 'package:rb_share/src/core/utils/extension.dart';
 import 'package:rb_share/src/core/utils/styles.dart';
 import 'package:rb_share/src/core/utils/utility_functions.dart';
 import 'package:rb_share/src/core/widgets/address_field_widget.dart';
-
 
 class ConnectWidget extends StatefulWidget {
   const ConnectWidget({super.key, required this.onConnected});
@@ -35,7 +33,7 @@ class _ConnectWidgetState extends State<ConnectWidget> {
     super.initState();
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) async {
       final lastAddress = await getIt.get<PrefData>().getLastConnectedAddress();
-      if(lastAddress != null && lastAddress.isNotEmpty) {
+      if (lastAddress != null && lastAddress.isNotEmpty) {
         final addresses = lastAddress.split(':');
         _ipTextController.text = addresses[0];
         _portTextController.text = addresses[1];
@@ -74,7 +72,7 @@ class _ConnectWidgetState extends State<ConnectWidget> {
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 12.0),
               child: Text(
-                'Manual connect',
+                'Conectar manualmente',
                 style: CommonTextStyle.textStyleNormal,
               ),
             ),
@@ -98,7 +96,7 @@ class _ConnectWidgetState extends State<ConnectWidget> {
                   ),
                   icon: const Icon(Icons.router_outlined, color: textIconButtonColor),
                   label: Text(
-                    'Connect',
+                    'Conectar',
                     style: CommonTextStyle.textStyleNormal.copyWith(color: textIconButtonColor),
                   ),
                 ),
@@ -138,8 +136,7 @@ class _ConnectWidgetState extends State<ConnectWidget> {
 
     _connectedIPSubscription?.cancel();
     try {
-      _connectedIPFuture = Socket.connect(ipAddress, port, timeout: const Duration(seconds: 5))
-          .catchError((error) {
+      _connectedIPFuture = Socket.connect(ipAddress, port, timeout: const Duration(seconds: 5)).catchError((error) {
         if (mounted) {
           context.showSnackbar('Failed to connect!');
         }
@@ -151,12 +148,8 @@ class _ConnectWidgetState extends State<ConnectWidget> {
     _connectedIPSubscription = _connectedIPFuture?.asStream().listen((socket) {
       debugPrint('Connected to $ipAddress:$port');
       if (mounted) {
-        context
-            .read<ConnectionProvider>()
-            .updateConnectedIPAddress(newIpAddress: '$ipAddress:$port');
-        context
-            .read<ConnectionProvider>()
-            .updateConnectionStatus(newStatus: ConnectionStatus.connected);
+        context.read<ConnectionProvider>().updateConnectedIPAddress(newIpAddress: '$ipAddress:$port');
+        context.read<ConnectionProvider>().updateConnectionStatus(newStatus: ConnectionStatus.connected);
       }
       socket.destroy();
       widget.onConnected.call();

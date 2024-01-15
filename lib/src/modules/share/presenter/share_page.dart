@@ -82,7 +82,7 @@ class _SharePageState extends State<SharePage> {
                                 heroTag: const Text("Scan"),
                                 onPressed: () => _onClickScanButton(),
                                 label: Text(
-                                  'Scan to connect',
+                                  'Ler QR Code',
                                   style: CommonTextStyle.textStyleNormal.copyWith(
                                     color: textIconButtonColor,
                                     fontSize: 14.0,
@@ -99,7 +99,7 @@ class _SharePageState extends State<SharePage> {
                         heroTag: const Text("Manual"),
                         onPressed: () => _onClickManualButton(),
                         label: Text(
-                          'Manual connect',
+                          'Conectar manualmente',
                           style: CommonTextStyle.textStyleNormal.copyWith(
                             color: textIconButtonColor,
                             fontSize: 14.0,

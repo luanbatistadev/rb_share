@@ -12,7 +12,6 @@ import 'package:rb_share/src/core/utils/styles.dart';
 import 'package:rb_share/src/core/utils/utility_functions.dart';
 
 class ScanQRWidget extends StatefulWidget {
-
   const ScanQRWidget({super.key});
 
   @override
@@ -52,7 +51,7 @@ class _ScanQRWidgetState extends State<ScanQRWidget> {
     return Scaffold(
       appBar: AppBar(
         title: const Text(
-          'Scan to connect',
+          'Escanear para conectar',
           style: CommonTextStyle.textStyleAppbar,
         ),
         iconTheme: const IconThemeData(color: textIconButtonColor),
@@ -88,7 +87,7 @@ class _ScanQRWidgetState extends State<ScanQRWidget> {
                         valueListenable: qrScanResult,
                         builder: (context, value, child) {
                           return Text(
-                            'Detected result: ${value.isEmpty ? 'None' : value}',
+                            'Resultado detectado: ${value.isEmpty ? 'Nenhum' : value}',
                             textAlign: TextAlign.start,
                             style: CommonTextStyle.textStyleNormal.copyWith(
                               fontSize: 18.0,
@@ -112,7 +111,7 @@ class _ScanQRWidgetState extends State<ScanQRWidget> {
                   onPressed: () => _onClickConnect(),
                   icon: const Icon(Icons.router_outlined, color: textIconButtonColor),
                   label: Text(
-                    'Connect',
+                    'Conectar',
                     style: CommonTextStyle.textStyleNormal.copyWith(color: textIconButtonColor),
                   ),
                 ),
@@ -155,7 +154,7 @@ class _ScanQRWidgetState extends State<ScanQRWidget> {
 
   _onClickConnect() {
     final address = qrScanResult.value;
-    var (ipAddress,port)= ('',0);
+    var (ipAddress, port) = ('', 0);
     try {
       (ipAddress, port) = UtilityFunctions.parseIPAddress(address);
     } catch (e) {
@@ -163,13 +162,11 @@ class _ScanQRWidgetState extends State<ScanQRWidget> {
       return;
     }
 
-
     debugPrint('Connecting to $ipAddress:$port');
 
     _connectedIPSubscription?.cancel();
     try {
-      _connectedIPFuture = Socket.connect(ipAddress, port, timeout: const Duration(seconds: 5))
-          .catchError((error) {
+      _connectedIPFuture = Socket.connect(ipAddress, port, timeout: const Duration(seconds: 5)).catchError((error) {
         if (mounted) {
           context.showSnackbar('Failed to connect!');
         }
@@ -181,16 +178,12 @@ class _ScanQRWidgetState extends State<ScanQRWidget> {
     _connectedIPSubscription = _connectedIPFuture?.asStream().listen((socket) {
       debugPrint('Connected to $ipAddress:$port');
       if (mounted) {
-        context
-            .read<ConnectionProvider>()
-            .updateConnectedIPAddress(newIpAddress: '$ipAddress:$port');
-        context
-            .read<ConnectionProvider>()
-            .updateConnectionStatus(newStatus: ConnectionStatus.connected);
+        context.read<ConnectionProvider>().updateConnectedIPAddress(newIpAddress: '$ipAddress:$port');
+        context.read<ConnectionProvider>().updateConnectionStatus(newStatus: ConnectionStatus.connected);
       }
       socket.destroy();
 
-      if(mounted && context.canPop()) {
+      if (mounted && context.canPop()) {
         context.pop(true);
       }
     });

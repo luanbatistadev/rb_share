@@ -4,7 +4,6 @@ import 'package:rb_share/src/core/entities/connection_status.dart';
 import 'package:rb_share/src/core/utils/constants.dart';
 import 'package:rb_share/src/core/utils/styles.dart';
 
-
 class NavigationWidgets extends StatefulWidget {
   final ConnectionStatus connectionStatus;
 
@@ -25,18 +24,14 @@ class _NavigationWidgetsState extends State<NavigationWidgets> {
           Builder(builder: (context) {
             final isConnected = widget.connectionStatus == ConnectionStatus.connected;
             return FloatingActionButton.extended(
-              backgroundColor: isConnected
-                ? Theme.of(context).colorScheme.primaryContainer
-                : disabledButtonColor,
-              heroTag: const Text('Send files'),
+              backgroundColor: isConnected ? Theme.of(context).colorScheme.primaryContainer : disabledButtonColor,
+              heroTag: const Text('Enviar arquivos'),
               onPressed: () => _onClickSend(),
-              icon: Icon(Icons.send,
-                  color: isConnected ? textIconButtonColor : textIconButtonColorActivated
-              ),
+              icon: Icon(Icons.send, color: isConnected ? textIconButtonColor : textIconButtonColorActivated),
               label: Text(
-                'Send files',
+                'Enviar arquivos',
                 style: CommonTextStyle.textStyleNormal.copyWith(
-                    color: isConnected ? textIconButtonColor : textIconButtonColorActivated,
+                  color: isConnected ? textIconButtonColor : textIconButtonColorActivated,
                 ),
               ),
             );
@@ -47,8 +42,7 @@ class _NavigationWidgetsState extends State<NavigationWidgets> {
   }
 
   void _onClickSend() {
-    if(widget.connectionStatus != ConnectionStatus.connected) return;
+    if (widget.connectionStatus != ConnectionStatus.connected) return;
     context.pushNamed(mSendPath);
   }
-
 }

@@ -19,7 +19,6 @@ class ListSharedFiles extends StatefulWidget {
 }
 
 class _ListSharedFilesState extends State<ListSharedFiles> {
-
   final fileRepository = getIt.get<FileRepository>();
   final mainListScrollController = ScrollController();
   final searchController = SearchController();
@@ -43,9 +42,8 @@ class _ListSharedFilesState extends State<ListSharedFiles> {
             children: [
               files.isNotEmpty ? _buildHeader(files) : const SizedBox.shrink(),
               Flexible(
-                child: files.isNotEmpty
-                    ? _buildListFiles(files)
-                    : const EmptyWidget(message: 'No file found'),
+                child:
+                    files.isNotEmpty ? _buildListFiles(files) : const EmptyWidget(message: 'Arquivos não encontrados'),
               ),
             ],
           ),
@@ -55,41 +53,41 @@ class _ListSharedFilesState extends State<ListSharedFiles> {
   }
 
   _buildListFiles(files) => Container(
-    margin: const EdgeInsets.all(16.0),
-    child: Scrollbar(
-      controller: mainListScrollController,
-      thumbVisibility: false,
-      child: Material(
-        color: seedColor.withOpacity(0.1),
-        borderRadius: BorderRadius.circular(8.0),
-        child: ListView.separated(
+        margin: const EdgeInsets.all(16.0),
+        child: Scrollbar(
           controller: mainListScrollController,
-          shrinkWrap: true,
-          itemBuilder: (context, index) {
-            return FileTileClient(sharedFile: files.elementAt(index));
-          },
-          separatorBuilder: (context, index) {
-            return Divider(
-              color: Colors.black12.withAlpha(20),
-              height: 0.2,
-              indent: 8.0,
-              endIndent: 8.0,
-              thickness: 0.5,
-            );
-          },
-          itemCount: files.length,
+          thumbVisibility: false,
+          child: Material(
+            color: seedColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(8.0),
+            child: ListView.separated(
+              controller: mainListScrollController,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                return FileTileClient(sharedFile: files.elementAt(index));
+              },
+              separatorBuilder: (context, index) {
+                return Divider(
+                  color: Colors.black12.withAlpha(20),
+                  height: 0.2,
+                  indent: 8.0,
+                  endIndent: 8.0,
+                  thickness: 0.5,
+                );
+              },
+              itemCount: files.length,
+            ),
+          ),
         ),
-      ),
-    ),
-  );
+      );
 
   _buildHeader(files) => Row(
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      _buildHeaderSearch(files),
-      _buildHeaderReload(),
-    ],
-  );
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          _buildHeaderSearch(files),
+          _buildHeaderReload(),
+        ],
+      );
 
   _buildHeaderSearch(List<SharedFile> files) {
     return Container(
@@ -111,7 +109,7 @@ class _ListSharedFilesState extends State<ListSharedFiles> {
           borderRadius: BorderRadius.circular(8.0),
         ),
         viewBuilder: (suggestions) {
-          if(searchController.text.trim().isEmpty) {
+          if (searchController.text.trim().isEmpty) {
             return ListView(
               children: suggestions.toList(),
             );
@@ -134,8 +132,8 @@ class _ListSharedFilesState extends State<ListSharedFiles> {
           enableFunctionality: false,
           onPressed: () {
             final oldIndex = oldFiles.indexWhere((f) => f.name == filteredFiles.elementAt(index).name);
-            final contentSize = mainListScrollController.position.viewportDimension +
-                mainListScrollController.position.maxScrollExtent;
+            final contentSize =
+                mainListScrollController.position.viewportDimension + mainListScrollController.position.maxScrollExtent;
             final target = contentSize * oldIndex / oldFiles.length;
             searchController.closeView(null);
             mainListScrollController.position.animateTo(
