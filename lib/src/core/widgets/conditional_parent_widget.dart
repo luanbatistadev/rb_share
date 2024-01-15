@@ -7,12 +7,12 @@ class ConditionalParentWidget extends StatelessWidget {
   final Widget child;
 
   const ConditionalParentWidget({
-    Key? key,
+    super.key,
     required this.condition,
     required this.leftParent,
     required this.rightParent,
     required this.child,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

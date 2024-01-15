@@ -12,13 +12,13 @@ class AddressFieldWidget extends StatelessWidget {
   final bool? isEnablePort;
 
   const AddressFieldWidget({
-    Key? key,
+    super.key,
     required this.ipTextController,
     required this.portTextController,
     this.isEnableIP,
     this.isEnablePort,
     this.backgroundColor,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

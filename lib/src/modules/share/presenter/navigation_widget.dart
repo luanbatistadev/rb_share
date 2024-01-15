@@ -8,7 +8,7 @@ import 'package:rb_share/src/core/utils/styles.dart';
 class NavigationWidgets extends StatefulWidget {
   final ConnectionStatus connectionStatus;
 
-  const NavigationWidgets({Key? key, required this.connectionStatus}) : super(key: key);
+  const NavigationWidgets({super.key, required this.connectionStatus});
 
   @override
   State<NavigationWidgets> createState() => _NavigationWidgetsState();

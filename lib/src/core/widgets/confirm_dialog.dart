@@ -11,7 +11,7 @@ class ConfirmDialog extends StatelessWidget {
   final double? dialogHeight;
 
   const ConfirmDialog({
-    Key? key,
+    super.key,
     required this.header,
     required this.body,
     this.onCancel,
@@ -20,7 +20,7 @@ class ConfirmDialog extends StatelessWidget {
     this.okButtonTitle,
     this.dialogWidth,
     this.dialogHeight,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

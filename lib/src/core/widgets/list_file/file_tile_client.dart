@@ -18,12 +18,12 @@ class FileTileClient extends StatefulWidget {
   final bool enableFunctionality;
 
   const FileTileClient({
-    Key? key,
+    super.key,
     required this.sharedFile,
     this.onRemoveItem,
     this.onPressed,
     this.enableFunctionality = true,
-  }) : super(key: key);
+  });
 
   @override
   State<FileTileClient> createState() => _FileTileClientState();

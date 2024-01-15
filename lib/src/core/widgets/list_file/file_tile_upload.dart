@@ -11,10 +11,10 @@ class FileTileUpload extends StatefulWidget {
   final Function? onRemoveItem;
 
   const FileTileUpload({
-    Key? key,
+    super.key,
     required this.sharedFile,
     this.onRemoveItem,
-  }) : super(key: key);
+  });
 
   @override
   State<FileTileUpload> createState() => _FileTileUploadState();

@@ -4,7 +4,7 @@ import 'package:rb_share/src/core/utils/styles.dart';
 class EmptyWidget extends StatelessWidget {
   final String message;
 
-  const EmptyWidget({Key? key, required this.message}) : super(key: key);
+  const EmptyWidget({super.key, required this.message});
 
   @override
   Widget build(BuildContext context) {

@@ -9,10 +9,10 @@ class QRMenuPopup extends StatefulWidget {
   final String port;
 
   const QRMenuPopup({
-    Key? key,
+    super.key,
     required this.ipAddress,
     required this.port,
-  }) : super(key: key);
+  });
 
   @override
   State<QRMenuPopup> createState() => _QRMenuPopupState();

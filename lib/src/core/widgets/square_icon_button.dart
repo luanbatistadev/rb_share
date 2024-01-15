@@ -5,7 +5,7 @@ class SquareIconButton extends StatelessWidget {
   final Function onPressed;
   final IconData icon;
 
-  const SquareIconButton({Key? key, required this.onPressed, required this.icon}) : super(key: key);
+  const SquareIconButton({super.key, required this.onPressed, required this.icon});
 
   @override
   Widget build(BuildContext context) {

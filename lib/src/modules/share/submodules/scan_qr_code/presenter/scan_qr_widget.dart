@@ -13,7 +13,7 @@ import 'package:rb_share/src/core/utils/utility_functions.dart';
 
 class ScanQRWidget extends StatefulWidget {
 
-  const ScanQRWidget({Key? key}) : super(key: key);
+  const ScanQRWidget({super.key});
 
   @override
   State<ScanQRWidget> createState() => _ScanQRWidgetState();

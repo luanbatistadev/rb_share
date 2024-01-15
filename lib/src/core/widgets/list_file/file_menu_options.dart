@@ -12,10 +12,10 @@ class FileMenuOptions extends StatefulWidget {
   final SharedFile sharedFile;
 
   const FileMenuOptions({
-    Key? key,
+    super.key,
     required this.onComplete,
     required this.sharedFile,
-  }) : super(key: key);
+  });
 
   @override
   State<FileMenuOptions> createState() => _FileMenuOptionsState();

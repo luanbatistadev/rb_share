@@ -15,7 +15,7 @@ import 'package:rb_share/src/core/widgets/address_field_widget.dart';
 
 
 class ConnectWidget extends StatefulWidget {
-  const ConnectWidget({Key? key, required this.onConnected}) : super(key: key);
+  const ConnectWidget({super.key, required this.onConnected});
 
   final Function onConnected;
 

@@ -14,7 +14,12 @@ class UtilityFunctions {
   static String getRoutePath({required String name}) => '/$name';
 
   static Future<String?> getIPAddress() async {
-    return NetworkInfo().getWifiIP();
+    var status = await Permission.locationAlways.request();
+    if (status.isDenied) {
+      return null;
+    }
+    final ip = await NetworkInfo().getWifiIP();
+    return ip;
   }
 
   static bool get isMobile => kIsWeb ? false : Platform.isAndroid || Platform.isIOS;

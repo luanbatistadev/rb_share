@@ -17,7 +17,7 @@ import 'package:rb_share/src/core/widgets/empty_widget.dart';
 import 'package:rb_share/src/core/widgets/list_file/file_tile_upload.dart';
 
 class SendWidget extends StatefulWidget {
-  const SendWidget({Key? key}) : super(key: key);
+  const SendWidget({super.key});
 
   @override
   State<SendWidget> createState() => _SendWidgetState();

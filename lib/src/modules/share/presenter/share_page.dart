@@ -75,7 +75,7 @@ class _SharePageState extends State<SharePage> {
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    !UtilityFunctions.isMobile
+                    UtilityFunctions.isMobile
                         ? Row(
                             children: [
                               FloatingActionButton.extended(

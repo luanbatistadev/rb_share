@@ -23,7 +23,7 @@ import 'package:shelf_static/shelf_static.dart' as shelf_static;
 import 'package:stop_watch_timer/stop_watch_timer.dart';
 
 class ServerWidget extends StatefulWidget {
-  const ServerWidget({Key? key}) : super(key: key);
+  const ServerWidget({super.key});
 
   @override
   State<ServerWidget> createState() => _ServerWidgetState();
@@ -388,7 +388,7 @@ class _ServerWidgetState extends State<ServerWidget> {
       ..post('/upload', (request) => _uploadFileHandler(request, address));
 
     // static handler always in the first order in list handlers
-    Cascade cascade = Cascade().add(_staticHandler(dir.path)).add(routerHandler).add(_undefinedHandler);
+    Cascade cascade = Cascade().add(_staticHandler(dir.path)).add(routerHandler.call).add(_undefinedHandler);
     var handler = const Pipeline()
         .addMiddleware(logRequests(logger: (message, isError) => _exposeLogger(message: message)))
         .addHandler(cascade.handler);
