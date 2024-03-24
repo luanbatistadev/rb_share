@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:rb_share/src/modules/receive/presenter/receive_tab.dart';
+import 'package:rb_share/src/modules/send/send_tab.dart';
 
 class RBShareApp extends StatefulWidget {
   final HomeTab initialTab;
@@ -30,6 +31,8 @@ enum HomeTab {
     }
   }
 }
+
+
 
 class _RBShareAppState extends State<RBShareApp> {
   HomeTab _currentTab = HomeTab.receive;
@@ -62,7 +65,7 @@ class _RBShareAppState extends State<RBShareApp> {
                       physics: const NeverScrollableScrollPhysics(),
                       children: [
                         ReceiveTab(),
-                        ReceiveTab(),
+                        const SendTab(),
                         ReceiveTab(),
                         // SendTab(),
                         // SettingsTab(),
