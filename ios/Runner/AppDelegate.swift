@@ -1,6 +1,5 @@
 import UIKit
 import Flutter
-import flutter_downloader
 
 
 @UIApplicationMain
@@ -10,11 +9,6 @@ import flutter_downloader
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    FlutterDownloaderPlugin.setPluginRegistrantCallback({ registry in
-        if (!registry.hasPlugin("FlutterDownloaderPlugin")) {
-               FlutterDownloaderPlugin.register(with: registry.registrar(forPlugin: "FlutterDownloaderPlugin")!)
-            }
-    })
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

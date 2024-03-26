@@ -1,38 +1,69 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
-import 'package:rb_share/src/core/di/di.dart';
-import 'package:rb_share/src/core/provider/connection_provider.dart';
-import 'package:rb_share/src/core/provider/file_provider.dart';
-import 'package:rb_share/src/core/route/route.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:rb_share/gen/strings.g.dart';
+import 'package:rb_share/init.dart';
+import 'package:rb_share/pages/home_page.dart';
+import 'package:rb_share/provider/local_ip_provider.dart';
+import 'package:rb_share/widget/watcher/life_cycle_watcher.dart';
+import 'package:rb_share/widget/watcher/shortcut_watcher.dart';
+import 'package:rb_share/widget/watcher/tray_watcher.dart';
+import 'package:rb_share/widget/watcher/window_watcher.dart';
+import 'package:refena_flutter/refena_flutter.dart';
+import 'package:routerino/routerino.dart';
 
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  setupDI();
-  // initPlugins();
-  runApp(const MyApp());
+Future<void> main(List<String> args) async {
+  final container = await preInit(args);
+
+  runApp(RefenaScope.withContainer(
+    container: container,
+    child: TranslationProvider(
+      child: const RBShareApp(),
+    ),
+  ),);
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class RBShareApp extends StatelessWidget {
+  const RBShareApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (context) => FileProvider()),
-        ChangeNotifierProvider(create: (context) => ConnectionProvider()),
-      ],
-      child: MaterialApp.router(
-        title: 'RB Share',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(
-            seedColor: const Color(0xFF440A64),
-            brightness: Brightness.dark,
+    final ref = context.ref;
+    // final (themeMode, colorMode) =
+    //     ref.watch(settingsProvider.select((settings) => (settings.theme, settings.colorMode)));
+    // final dynamicColors = ref.watch(dynamicColorsProvider);
+    return TrayWatcher(
+      child: WindowWatcher(
+        child: LifeCycleWatcher(
+          onChangedState: (AppLifecycleState state) {
+            if (state == AppLifecycleState.resumed) {
+              ref.redux(localIpProvider).dispatch(InitLocalIpAction());
+            }
+          },
+          child: ShortcutWatcher(
+            child: MaterialApp(
+              title: t.appName,
+              locale: TranslationProvider.of(context).flutterLocale,
+              supportedLocales: AppLocaleUtils.supportedLocales,
+              localizationsDelegates: GlobalMaterialLocalizations.delegates,
+              debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                colorScheme: ColorScheme.fromSeed(
+                  seedColor: const Color(0xFF440A64),
+                  brightness: Brightness.dark,
+                ),
+                useMaterial3: true,
+              ),
+              // themeMode: colorMode == ColorMode.oled ? ThemeMode.dark : themeMode,
+              navigatorKey: Routerino.navigatorKey,
+              home: RouterinoHome(
+                builder: () => const HomePage(
+                  initialTab: HomeTab.receive,
+                  appStart: true,
+                ),
+              ),
+            ),
           ),
-          useMaterial3: true,
         ),
-        routerConfig: router,
-        debugShowCheckedModeBanner: false,
       ),
     );
   }

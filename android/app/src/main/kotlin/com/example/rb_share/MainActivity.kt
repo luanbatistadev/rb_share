@@ -1,4 +1,4 @@
-package com.example.rb_share
+package com.rb.share
 
 import io.flutter.embedding.android.FlutterActivity
 
