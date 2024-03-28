@@ -72,7 +72,11 @@ class _HomePageState extends State<HomePage> with Refena {
     ref.redux(homeTabProvider).dispatch(SetHomeTabAction(tab));
     setState(() {
       _currentTab = tab;
-      _pageController.jumpToPage(_currentTab.index);
+      _pageController.animateToPage(
+        _currentTab.index,
+        curve: Curves.ease,
+        duration: const Duration(milliseconds: 200),
+      );
     });
   }
 
@@ -98,10 +102,12 @@ class _HomePageState extends State<HomePage> with Refena {
               .dispatchAsync(AddDirectoryAction(event.files.first.path));
         } else {
           // user dropped one or more files
-          await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-                files: event.files,
-                converter: CrossFileConverters.convertXFile,
-              ),);
+          await ref.redux(selectedSendingFilesProvider).dispatchAsync(
+                AddFilesAction(
+                  files: event.files,
+                  converter: CrossFileConverters.convertXFile,
+                ),
+              );
         }
         _goToPage(HomeTab.send.index);
       },
@@ -160,8 +166,10 @@ class _HomePageState extends State<HomePage> with Refena {
                               children: [
                                 const Icon(Icons.file_download, size: 128),
                                 const SizedBox(height: 30),
-                                Text(t.sendTab.placeItems,
-                                    style: Theme.of(context).textTheme.titleLarge,),
+                                Text(
+                                  t.sendTab.placeItems,
+                                  style: Theme.of(context).textTheme.titleLarge,
+                                ),
                               ],
                             ),
                           ),

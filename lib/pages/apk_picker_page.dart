@@ -94,11 +94,6 @@ class _ApkPickerPageState extends State<ApkPickerPage> with Refena {
                     setState(() {});
                   },
                   decoration: InputDecoration(
-                    fillColor: ElevationOverlay.applySurfaceTint(
-                      Theme.of(context).inputDecorationTheme.fillColor!,
-                      Theme.of(context).colorScheme.surfaceTint,
-                      3,
-                    ),
                     prefixIcon: const Icon(Icons.search),
                     suffixIcon: apkParams.query.isNotEmpty
                         ? IconButton(
