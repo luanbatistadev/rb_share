@@ -74,9 +74,9 @@ enum FilePickerOption {
       return [
         FilePickerOption.file,
         FilePickerOption.media,
-        FilePickerOption.text,
+       // FilePickerOption.text,
         FilePickerOption.folder,
-        FilePickerOption.app,
+       // FilePickerOption.app,
       ];
     } else {
       // Desktop

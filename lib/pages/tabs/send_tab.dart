@@ -69,10 +69,12 @@ class SendTab extends StatelessWidget {
                           icon: option.icon,
                           label: option.label,
                           filled: false,
-                          onTap: () async => ref.dispatchAsync(PickFileAction(
-                            option: option,
-                            context: context,
-                          ),),
+                          onTap: () async => ref.dispatchAsync(
+                            PickFileAction(
+                              option: option,
+                              context: context,
+                            ),
+                          ),
                         ),
                       );
                     }),
@@ -83,7 +85,10 @@ class SendTab extends StatelessWidget {
             ] else ...[
               Card(
                 margin: const EdgeInsets.only(
-                    bottom: 10, left: _horizontalPadding, right: _horizontalPadding,),
+                  bottom: 10,
+                  left: _horizontalPadding,
+                  right: _horizontalPadding,
+                ),
                 child: Padding(
                   padding: const EdgeInsets.all(15),
                   child: Column(
@@ -95,10 +100,13 @@ class SendTab extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       Text(t.sendTab.selection.files(files: vm.selectedFiles.length)),
-                      Text(t.sendTab.selection.size(
+                      Text(
+                        t.sendTab.selection.size(
                           size: vm.selectedFiles
                               .fold(0, (prev, curr) => prev + curr.size)
-                              .asReadableFileSize,),),
+                              .asReadableFileSize,
+                        ),
+                      ),
                       const SizedBox(height: 10),
                       SizedBox(
                         height: defaultThumbnailSize,
@@ -136,10 +144,12 @@ class SendTab extends StatelessWidget {
                             onPressed: () async {
                               if (_options.length == 1) {
                                 // open directly
-                                await ref.dispatchAsync(PickFileAction(
-                                  option: _options.first,
-                                  context: context,
-                                ),);
+                                await ref.dispatchAsync(
+                                  PickFileAction(
+                                    option: _options.first,
+                                    context: context,
+                                  ),
+                                );
                                 return;
                               }
                               await AddFileDialog.open(
@@ -163,12 +173,14 @@ class SendTab extends StatelessWidget {
                 Flexible(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(vertical: 10),
-                    child: Text(t.sendTab.nearbyDevices,
-                        style: Theme.of(context).textTheme.titleMedium,),
+                    child: Text(
+                      t.sendTab.nearbyDevices,
+                      style: Theme.of(context).textTheme.titleMedium,
+                    ),
                   ),
                 ),
                 const SizedBox(width: 10),
-                _ScanButton(
+                ScanButton(
                   ips: vm.localIps,
                 ),
                 Tooltip(
@@ -193,7 +205,10 @@ class SendTab extends StatelessWidget {
             if (vm.nearbyDevices.isEmpty)
               const Padding(
                 padding: EdgeInsets.only(
-                    bottom: 10, left: _horizontalPadding, right: _horizontalPadding,),
+                  bottom: 10,
+                  left: _horizontalPadding,
+                  right: _horizontalPadding,
+                ),
                 child: Opacity(
                   opacity: 0.3,
                   child: DevicePlaceholderListTile(),
@@ -204,11 +219,14 @@ class SendTab extends StatelessWidget {
                   vm.favoriteDevices.firstWhereOrNull((e) => e.fingerprint == device.fingerprint);
               return Padding(
                 padding: const EdgeInsets.only(
-                    bottom: 10, left: _horizontalPadding, right: _horizontalPadding,),
+                  bottom: 10,
+                  left: _horizontalPadding,
+                  right: _horizontalPadding,
+                ),
                 child: Hero(
                   tag: 'device-${device.ip}',
                   child: vm.sendMode == SendMode.multiple
-                      ? _MultiSendDeviceListTile(
+                      ? MultiSendDeviceListTile(
                           device: device,
                           isFavorite: favoriteEntry != null,
                           nameOverride: favoriteEntry?.alias,
@@ -243,12 +261,17 @@ class SendTab extends StatelessWidget {
                     durationMillis: 6000,
                     running: animations,
                     children: [
-                      Text(t.sendTab.help,
-                          style: const TextStyle(color: Colors.grey), textAlign: TextAlign.center,),
+                      Text(
+                        t.sendTab.help,
+                        style: const TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.center,
+                      ),
                       if (checkPlatformCanReceiveShareIntent())
-                        Text(t.sendTab.shareIntentInfo,
-                            style: const TextStyle(color: Colors.grey),
-                            textAlign: TextAlign.center,),
+                        Text(
+                          t.sendTab.shareIntentInfo,
+                          style: const TextStyle(color: Colors.grey),
+                          textAlign: TextAlign.center,
+                        ),
                     ],
                   );
                 },
@@ -264,13 +287,13 @@ class SendTab extends StatelessWidget {
 
 /// A button that opens a popup menu to select [T].
 /// This is used for the scan button and the send mode button.
-class _CircularPopupButton<T> extends StatelessWidget {
+class CircularPopupButton<T> extends StatelessWidget {
   final String tooltip;
   final PopupMenuItemBuilder<T> itemBuilder;
   final PopupMenuItemSelected<T>? onSelected;
   final Widget child;
 
-  const _CircularPopupButton({
+  const CircularPopupButton({
     required this.tooltip,
     required this.onSelected,
     required this.itemBuilder,
@@ -304,10 +327,10 @@ class _CircularPopupButton<T> extends StatelessWidget {
 }
 
 /// The scan button that uses [_CircularPopupButton].
-class _ScanButton extends StatelessWidget {
+class ScanButton extends StatelessWidget {
   final List<String> ips;
 
-  const _ScanButton({
+  const ScanButton({
     required this.ips,
   });
 
@@ -336,7 +359,7 @@ class _ScanButton extends StatelessWidget {
       );
     }
 
-    return _CircularPopupButton(
+    return CircularPopupButton(
       tooltip: t.sendTab.scan,
       onSelected: (ip) async {
         context.redux(nearbyDevicesProvider).dispatch(ClearFoundDevicesAction());
@@ -398,7 +421,7 @@ class _SendModeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return _CircularPopupButton<int>(
+    return CircularPopupButton<int>(
       tooltip: t.sendTab.sendMode,
       onSelected: (mode) async {
         switch (mode) {
@@ -500,13 +523,14 @@ class _SendModeButton extends StatelessWidget {
 }
 
 /// An advanced list tile which shows the progress of the file transfer.
-class _MultiSendDeviceListTile extends StatelessWidget {
+class MultiSendDeviceListTile extends StatelessWidget {
   final Device device;
   final bool isFavorite;
   final String? nameOverride;
   final SendTabVm vm;
 
-  const _MultiSendDeviceListTile({
+  const MultiSendDeviceListTile({
+    super.key,
     required this.device,
     required this.isFavorite,
     required this.nameOverride,
@@ -523,12 +547,13 @@ class _MultiSendDeviceListTile extends StatelessWidget {
       final files = session.files.values.where((f) => f.token != null);
       final progressNotifier = ref.watch(progressProvider);
       final currBytes = files.fold<int>(
-          0,
-          (prev, curr) =>
-              prev +
-              ((progressNotifier.getProgress(sessionId: session.sessionId, fileId: curr.file.id) *
-                      curr.file.size)
-                  .round()),);
+        0,
+        (prev, curr) =>
+            prev +
+            ((progressNotifier.getProgress(sessionId: session.sessionId, fileId: curr.file.id) *
+                    curr.file.size)
+                .round()),
+      );
       final totalBytes = files.fold<int>(0, (prev, curr) => prev + curr.file.size);
       progress = totalBytes == 0 ? 0 : currBytes / totalBytes;
     } else {

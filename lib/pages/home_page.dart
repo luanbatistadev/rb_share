@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:rb_share/gen/strings.g.dart';
 import 'package:rb_share/init.dart';
 import 'package:rb_share/pages/tabs/receive_tab.dart';
-import 'package:rb_share/pages/tabs/send_tab.dart';
+import 'package:rb_share/pages/tabs/send/send_files_tab.dart';
 import 'package:rb_share/provider/selection/selected_sending_files_provider.dart';
 import 'package:rb_share/provider/ui/home_tab_provider.dart';
 import 'package:rb_share/theme.dart';
@@ -152,7 +152,7 @@ class _HomePageState extends State<HomePage> with Refena {
                           physics: const NeverScrollableScrollPhysics(),
                           children: const [
                             ReceiveTab(),
-                            SendTab(),
+                            SendFilesTab(),
                           ],
                         ),
                         if (_dragAndDropIndicator)
