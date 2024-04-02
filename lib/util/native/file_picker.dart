@@ -6,6 +6,9 @@ import 'package:file_selector/file_selector.dart' as file_selector;
 import 'package:file_selector/file_selector.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:logging/logging.dart';
+import 'package:pasteboard/pasteboard.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:rb_share/gen/strings.g.dart';
 import 'package:rb_share/pages/apk_picker_page.dart';
 import 'package:rb_share/provider/selection/selected_sending_files_provider.dart';
@@ -19,9 +22,6 @@ import 'package:rb_share/util/ui/asset_picker_translated_text_delegate.dart';
 import 'package:rb_share/widget/dialogs/loading_dialog.dart';
 import 'package:rb_share/widget/dialogs/message_input_dialog.dart';
 import 'package:rb_share/widget/dialogs/no_permission_dialog.dart';
-import 'package:logging/logging.dart';
-import 'package:pasteboard/pasteboard.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 import 'package:wechat_assets_picker/wechat_assets_picker.dart';
@@ -74,9 +74,9 @@ enum FilePickerOption {
       return [
         FilePickerOption.file,
         FilePickerOption.media,
-       // FilePickerOption.text,
+        FilePickerOption.text,
         FilePickerOption.folder,
-       // FilePickerOption.app,
+        FilePickerOption.app,
       ];
     } else {
       // Desktop
@@ -149,18 +149,22 @@ Future<void> _pickFiles(BuildContext context, Ref ref) async {
       // We also need to use the file_picker package because file_selector does not expose the raw path.
       final result = await file_picker.FilePicker.platform.pickFiles(allowMultiple: true);
       if (result != null) {
-        await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-              files: result.files,
-              converter: CrossFileConverters.convertPlatformFile,
-            ),);
+        await ref.redux(selectedSendingFilesProvider).dispatchAsync(
+              AddFilesAction(
+                files: result.files,
+                converter: CrossFileConverters.convertPlatformFile,
+              ),
+            );
       }
     } else {
       final result = await file_selector.openFiles();
       if (result.isNotEmpty) {
-        await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-              files: result,
-              converter: CrossFileConverters.convertXFile,
-            ),);
+        await ref.redux(selectedSendingFilesProvider).dispatchAsync(
+              AddFilesAction(
+                files: result,
+                converter: CrossFileConverters.convertXFile,
+              ),
+            );
       }
     }
   } catch (e) {
@@ -228,10 +232,12 @@ Future<void> _pickMedia(BuildContext context, Ref ref) async {
   });
 
   if (result != null) {
-    await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-          files: result,
-          converter: CrossFileConverters.convertAssetEntity,
-        ),);
+    await ref.redux(selectedSendingFilesProvider).dispatchAsync(
+          AddFilesAction(
+            files: result,
+            converter: CrossFileConverters.convertAssetEntity,
+          ),
+        );
   }
 }
 
@@ -249,10 +255,12 @@ Future<void> _pickClipboard(BuildContext context, Ref ref) async {
     files.add(file);
   }
   if (files.isNotEmpty) {
-    await ref.redux(selectedSendingFilesProvider).dispatchAsync(AddFilesAction(
-          files: files.map((e) => XFile(e)).toList(),
-          converter: CrossFileConverters.convertXFile,
-        ),);
+    await ref.redux(selectedSendingFilesProvider).dispatchAsync(
+          AddFilesAction(
+            files: files.map((e) => XFile(e)).toList(),
+            converter: CrossFileConverters.convertXFile,
+          ),
+        );
     return;
   }
 
@@ -267,11 +275,13 @@ Future<void> _pickClipboard(BuildContext context, Ref ref) async {
     final now = DateTime.now();
     final fileName =
         'clipboard_${now.year}-${now.month.twoDigitString}-${now.day.twoDigitString}_${now.hour.twoDigitString}-${now.minute.twoDigitString}.${determineImageType(image)}';
-    ref.redux(selectedSendingFilesProvider).dispatch(AddBinaryAction(
-          bytes: image,
-          fileType: FileType.image,
-          fileName: fileName,
-        ),);
+    ref.redux(selectedSendingFilesProvider).dispatch(
+          AddBinaryAction(
+            bytes: image,
+            fileType: FileType.image,
+            fileName: fileName,
+          ),
+        );
     return;
   }
 
@@ -279,9 +289,11 @@ Future<void> _pickClipboard(BuildContext context, Ref ref) async {
     return;
   }
 
-  ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-    content: Text(t.general.noItemInClipboard),
-  ),);
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text(t.general.noItemInClipboard),
+    ),
+  );
 }
 
 Future<void> _pickApp(BuildContext context) async {

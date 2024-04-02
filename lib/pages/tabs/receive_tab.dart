@@ -41,22 +41,26 @@ class ReceiveTab extends StatelessWidget {
                               InitialFadeTransition(
                                 duration: const Duration(milliseconds: 300),
                                 delay: const Duration(milliseconds: 200),
-                                child: Consumer(builder: (context, ref) {
-                                  final animations = ref.watch(animationProvider);
-                                  final activeTab = ref.watch(homeTabProvider);
-                                  return RotatingWidget(
-                                    duration: const Duration(seconds: 15),
-                                    spinning: vm.serverState != null &&
-                                        animations &&
-                                        activeTab == HomeTab.receive,
-                                    child: const RBShareLogo(withText: false),
-                                  );
-                                },),
+                                child: Consumer(
+                                  builder: (context, ref) {
+                                    final animations = ref.watch(animationProvider);
+                                    final activeTab = ref.watch(homeTabProvider);
+                                    return RotatingWidget(
+                                      duration: const Duration(seconds: 15),
+                                      spinning: vm.serverState != null &&
+                                          animations &&
+                                          activeTab == HomeTab.receive,
+                                      child: const RBShareLogo(withText: false),
+                                    );
+                                  },
+                                ),
                               ),
                               FittedBox(
                                 fit: BoxFit.scaleDown,
-                                child: Text(vm.serverState?.alias ?? vm.aliasSettings,
-                                    style: const TextStyle(fontSize: 48),),
+                                child: Text(
+                                  vm.serverState?.alias ?? vm.aliasSettings,
+                                  style: const TextStyle(fontSize: 48),
+                                ),
                               ),
                               InitialFadeTransition(
                                 duration: const Duration(milliseconds: 300),

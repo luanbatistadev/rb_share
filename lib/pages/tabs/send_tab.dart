@@ -331,6 +331,7 @@ class ScanButton extends StatelessWidget {
   final List<String> ips;
 
   const ScanButton({
+    super.key,
     required this.ips,
   });
 

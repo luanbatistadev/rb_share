@@ -15,8 +15,15 @@ class _SendFilesTabState extends State<SendFilesTab> {
 
   void goToNextPage() {
     _pageController.nextPage(
-      duration: const Duration(milliseconds: 300),
-      curve: Easing.emphasizedAccelerate,
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.linear,
+    );
+  }
+
+  void goToPreviousPage() {
+    _pageController.previousPage(
+      duration: const Duration(milliseconds: 150),
+      curve: Curves.linear,
     );
   }
 
@@ -29,7 +36,8 @@ class _SendFilesTabState extends State<SendFilesTab> {
           callback: goToNextPage,
         ),
         SendModes(
-          callback: goToNextPage,
+          goToNextPage: goToNextPage,
+          goToPreviosPage: goToPreviousPage,
         ),
         NearbyDevices(
           callback: goToNextPage,
