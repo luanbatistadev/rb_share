@@ -50,9 +50,11 @@ class AddMessageAction extends ReduxAction<SelectedSendingFilesNotifier, List<Cr
       bytes: bytes,
     );
 
-    return List.unmodifiable([
-      ...state,
-    ]..insert(index ?? state.length, file),);
+    return List.unmodifiable(
+      [
+        ...state,
+      ]..insert(index ?? state.length, file),
+    );
   }
 }
 
@@ -129,7 +131,7 @@ class AddFilesAction<T> extends AsyncReduxAction<SelectedSendingFilesNotifier, L
         newFiles.add(crossFile);
       }
     }
-    return List.unmodifiable([
+    return ([
       ...state,
       ...newFiles,
     ]);

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:rb_share/gen/strings.g.dart';
 import 'package:rb_share/init.dart';
 import 'package:rb_share/pages/home_page.dart';
@@ -14,12 +15,14 @@ import 'package:routerino/routerino.dart';
 Future<void> main(List<String> args) async {
   final container = await preInit(args);
 
-  runApp(RefenaScope.withContainer(
-    container: container,
-    child: TranslationProvider(
-      child: const RBShareApp(),
+  runApp(
+    RefenaScope.withContainer(
+      container: container,
+      child: TranslationProvider(
+        child: const RBShareApp(),
+      ),
     ),
-  ),);
+  );
 }
 
 class RBShareApp extends StatelessWidget {
@@ -52,6 +55,8 @@ class RBShareApp extends StatelessWidget {
                   brightness: Brightness.dark,
                 ),
                 useMaterial3: true,
+                fontFamily: GoogleFonts.poppins().fontFamily,
+                textTheme: GoogleFonts.poppinsTextTheme().apply(bodyColor: Colors.white),
               ),
               // themeMode: colorMode == ColorMode.oled ? ThemeMode.dark : themeMode,
               navigatorKey: Routerino.navigatorKey,
