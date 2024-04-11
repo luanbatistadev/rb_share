@@ -13,7 +13,9 @@ import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';
 
 Future<void> main(List<String> args) async {
+  
   final container = await preInit(args);
+
 
   runApp(
     RefenaScope.withContainer(

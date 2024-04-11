@@ -8,7 +8,7 @@ import 'package:rb_share/provider/ui/home_tab_provider.dart';
 import 'package:rb_share/util/ip_helper.dart';
 import 'package:rb_share/widget/animations/initial_fade_transition.dart';
 import 'package:rb_share/widget/custom_icon_button.dart';
-import 'package:rb_share/widget/local_send_logo.dart';
+import 'package:rb_share/widget/rb_share_logo.dart';
 import 'package:rb_share/widget/responsive_list_view.dart';
 import 'package:rb_share/widget/rotating_widget.dart';
 import 'package:refena_flutter/refena_flutter.dart';

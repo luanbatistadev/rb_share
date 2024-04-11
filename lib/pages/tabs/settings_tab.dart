@@ -19,7 +19,7 @@ import 'package:rb_share/widget/dialogs/encryption_disabled_notice.dart';
 import 'package:rb_share/widget/dialogs/quick_save_notice.dart';
 import 'package:rb_share/widget/dialogs/text_field_tv.dart';
 import 'package:rb_share/widget/labeled_checkbox.dart';
-import 'package:rb_share/widget/local_send_logo.dart';
+import 'package:rb_share/widget/rb_share_logo.dart';
 import 'package:rb_share/widget/responsive_list_view.dart';
 import 'package:refena_flutter/refena_flutter.dart';
 import 'package:routerino/routerino.dart';

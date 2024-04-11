@@ -10,6 +10,7 @@ String generateRandomAlias() {
 List<String> names = [
   'Kauan',
   'Adriani',
+  'André',
   'Guilherme C.',
   'Fogaça',
   'Raul',
@@ -25,6 +26,8 @@ List<String> names = [
   'Lucineia',
   'Fábio',
   'Wilgler',
+  'Smolak',
+  'Theo',
 ];
 
 List<String> languages = [

@@ -3,7 +3,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:rb_share/gen/strings.g.dart';
 import 'package:rb_share/pages/debug/debug_page.dart';
-import 'package:rb_share/widget/local_send_logo.dart';
+import 'package:rb_share/widget/rb_share_logo.dart';
 import 'package:rb_share/widget/responsive_list_view.dart';
 import 'package:routerino/routerino.dart';
 import 'package:url_launcher/url_launcher.dart';
