@@ -23,7 +23,8 @@ class SendPage extends StatefulWidget {
   final bool closeSessionOnClose;
   final String sessionId;
 
-  const SendPage({super.key, 
+  const SendPage({
+    super.key,
     required this.showAppBar,
     required this.closeSessionOnClose,
     required this.sessionId,
@@ -80,12 +81,12 @@ class _SendPageState extends State<SendPage> with Refena {
       unawaited(TaskbarHelper.setProgressBarMode(TaskbarProgressMode.indeterminate));
     }
 
-    return WillPopScope(
-      onWillPop: () async {
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (value) {
         if (widget.closeSessionOnClose) {
           _cancel();
         }
-        return true;
       },
       child: Scaffold(
         appBar: widget.showAppBar ? AppBar() : null,
@@ -159,9 +160,12 @@ class _SendPageState extends State<SendPage> with Refena {
                                 child: Row(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    Text(t.general.error,
-                                        style: TextStyle(
-                                            color: Theme.of(context).colorScheme.warning,),),
+                                    Text(
+                                      t.general.error,
+                                      style: TextStyle(
+                                        color: Theme.of(context).colorScheme.warning,
+                                      ),
+                                    ),
                                     if (sendState.errorMessage != null)
                                       TextButton(
                                         style: TextButton.styleFrom(

@@ -101,11 +101,9 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
       unawaited(TaskbarHelper.setProgressBarMode(TaskbarProgressMode.indeterminate));
     }
 
-    return WillPopScope(
-      onWillPop: () async {
-        _decline();
-        return true;
-      },
+    return PopScope(
+      canPop: true,
+      onPopInvoked: (value) => _decline(),
       child: Scaffold(
         body: SafeArea(
           child: Center(
@@ -224,8 +222,10 @@ class _ReceivePageState extends State<ReceivePage> with Refena {
                                               ),
                                               onPressed: () {
                                                 // ignore: discarded_futures
-                                                launchUrl(Uri.parse(_message!),
-                                                    mode: LaunchMode.externalApplication,);
+                                                launchUrl(
+                                                  Uri.parse(_message!),
+                                                  mode: LaunchMode.externalApplication,
+                                                );
                                                 _acceptNothing();
                                                 context.pop();
                                               },

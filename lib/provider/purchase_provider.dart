@@ -179,7 +179,6 @@ class PurchaseAction extends AsyncReduxAction<PurchaseService, PurchaseState> {
       throw Exception('Product not found: ${item.platformProductId}');
     }
 
-    // TODO: Handle changing subscriptions if subscriptions would be added
     await InAppPurchase.instance.buyNonConsumable(
       purchaseParam: PurchaseParam(productDetails: productDetails),
     );
