@@ -16,9 +16,11 @@ class SendModes extends StatefulWidget {
     super.key,
     required this.goToNextPage,
     required this.goToPreviosPage,
+    required this.vm,
   });
   final VoidCallback goToNextPage;
   final VoidCallback goToPreviosPage;
+  final SendTabVm vm;
 
   @override
   State<SendModes> createState() => _SendModesState();
@@ -30,11 +32,8 @@ class _SendModesState extends State<SendModes> {
   @override
   Widget build(BuildContext context) {
     final badgeColor = Theme.of(context).colorScheme.secondaryContainer;
-    return ViewModelBuilder(
-      provider: sendTabVmProvider,
-      builder: (context, vm) {
-        return Scaffold(
-          floatingActionButton: vm.selectedFiles.isEmpty
+    return Scaffold(
+          floatingActionButton: widget.vm.selectedFiles.isEmpty
               ? null
               : Padding(
                   padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
@@ -80,21 +79,21 @@ class _SendModesState extends State<SendModes> {
                         mode: t.sendTab.sendModes.single,
                         sendMode: SendMode.single,
                         explanation: t.dialogs.sendModeHelp.single,
-                        callback: () => vm.onTapSendMode(context, SendMode.single),
+                        callback: () => widget.vm.onTapSendMode(context, SendMode.single),
                       ),
                       const SizedBox(height: 10),
                       _SendModeItem(
                         mode: t.sendTab.sendModes.multiple,
                         sendMode: SendMode.multiple,
                         explanation: t.dialogs.sendModeHelp.multiple,
-                        callback: () => vm.onTapSendMode(context, SendMode.multiple),
+                        callback: () => widget.vm.onTapSendMode(context, SendMode.multiple),
                       ),
                       const SizedBox(height: 10),
                       _SendModeItem(
                         mode: t.sendTab.sendModes.link,
                         sendMode: SendMode.link,
                         explanation: t.dialogs.sendModeHelp.link,
-                        callback: () => vm.onTapSendMode(context, SendMode.link),
+                        callback: () => widget.vm.onTapSendMode(context, SendMode.link),
                       ),
                     ],
                   ),
@@ -129,8 +128,7 @@ class _SendModesState extends State<SendModes> {
             ),
           ),
         );
-      },
-    );
+    
   }
 }
 

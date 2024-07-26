@@ -38,21 +38,25 @@ class ReceiveTab extends StatelessWidget {
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: [
-                              InitialFadeTransition(
-                                duration: const Duration(milliseconds: 300),
-                                delay: const Duration(milliseconds: 200),
-                                child: Consumer(
-                                  builder: (context, ref) {
-                                    final animations = ref.watch(animationProvider);
-                                    final activeTab = ref.watch(homeTabProvider);
-                                    return RotatingWidget(
-                                      duration: const Duration(seconds: 15),
-                                      spinning: vm.serverState != null &&
-                                          animations &&
-                                          activeTab == HomeTab.receive,
-                                      child: const RBShareLogo(withText: false),
-                                    );
-                                  },
+                              InkWell(
+                                onTap: vm.toggleAdvanced,
+                                borderRadius: BorderRadius.circular(100),
+                                child: InitialFadeTransition(
+                                  duration: const Duration(milliseconds: 300),
+                                  delay: const Duration(milliseconds: 200),
+                                  child: Consumer(
+                                    builder: (context, ref) {
+                                      final animations = ref.watch(animationProvider);
+                                      final activeTab = ref.watch(homeTabProvider);
+                                      return RotatingWidget(
+                                        duration: const Duration(seconds: 15),
+                                        spinning: vm.serverState != null &&
+                                            animations &&
+                                            activeTab == HomeTab.receive,
+                                        child: const RBShareLogo(withText: false),
+                                      );
+                                    },
+                                  ),
                                 ),
                               ),
                               FittedBox(
@@ -185,7 +189,7 @@ class ReceiveTab extends StatelessWidget {
                 CustomIconButton(
                   key: const ValueKey('info-btn'),
                   onPressed: vm.toggleAdvanced,
-                  child: const Icon(Icons.info),
+                  child: const Icon(Icons.info_outline_rounded),
                 ),
               ],
             ),

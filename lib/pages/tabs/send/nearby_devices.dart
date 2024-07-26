@@ -18,8 +18,13 @@ const _horizontalPadding = 15.0;
 
 class NearbyDevices extends StatefulWidget {
   final VoidCallback callback;
+  final SendTabVm vm;
 
-  const NearbyDevices({super.key, required this.callback});
+  const NearbyDevices({
+    super.key,
+    required this.callback,
+    required this.vm,
+  });
 
   @override
   State<NearbyDevices> createState() => _NearbyDevicesState();
@@ -28,118 +33,113 @@ class NearbyDevices extends StatefulWidget {
 class _NearbyDevicesState extends State<NearbyDevices> {
   @override
   Widget build(BuildContext context) {
-    return ViewModelBuilder(
-      provider: sendTabVmProvider,
-      builder: (context, vm) {
-        return Scaffold(
-          body: Center(
-            child: ResponsiveListView(
-              padding: EdgeInsets.zero,
+    return Scaffold(
+      body: Center(
+        child: ResponsiveListView(
+          padding: EdgeInsets.zero,
+          children: [
+            Row(
               children: [
-                Row(
-                  children: [
-                    const SizedBox(width: _horizontalPadding),
-                    Flexible(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        child: Text(
-                          t.sendTab.nearbyDevices,
-                          style: Theme.of(context).textTheme.titleMedium,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 10),
-                    ScanButton(
-                      ips: vm.localIps,
-                    ),
-                    Tooltip(
-                      message: t.dialogs.addressInput.title,
-                      child: CustomIconButton(
-                        onPressed: () async => vm.onTapAddress(context),
-                        child: const Icon(Icons.ads_click),
-                      ),
-                    ),
-                    Tooltip(
-                      message: t.dialogs.favoriteDialog.title,
-                      child: CustomIconButton(
-                        onPressed: () async => await vm.onTapFavorite(context),
-                        child: const Icon(Icons.favorite),
-                      ),
-                    ),
-                  ],
-                ),
-                if (vm.nearbyDevices.isEmpty)
-                  const Padding(
-                    padding: EdgeInsets.only(
-                      bottom: 10,
-                      left: _horizontalPadding,
-                      right: _horizontalPadding,
-                    ),
-                    child: Opacity(
-                      opacity: 0.3,
-                      child: DevicePlaceholderListTile(),
+                const SizedBox(width: _horizontalPadding),
+                Flexible(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(vertical: 10),
+                    child: Text(
+                      t.sendTab.nearbyDevices,
+                      style: Theme.of(context).textTheme.titleMedium,
                     ),
                   ),
-                ...vm.nearbyDevices.map((device) {
-                  final favoriteEntry = vm.favoriteDevices
-                      .firstWhereOrNull((e) => e.fingerprint == device.fingerprint);
-                  return Padding(
-                    padding: const EdgeInsets.only(
-                      bottom: 10,
-                      left: _horizontalPadding,
-                      right: _horizontalPadding,
-                    ),
-                    child: Hero(
-                      tag: 'device-${device.ip}',
-                      child: vm.sendMode == SendMode.multiple
-                          ? MultiSendDeviceListTile(
-                              device: device,
-                              isFavorite: favoriteEntry != null,
-                              nameOverride: favoriteEntry?.alias,
-                              vm: vm,
-                            )
-                          : DeviceListTile(
-                              device: device,
-                              isFavorite: favoriteEntry != null,
-                              nameOverride: favoriteEntry?.alias,
-                              onFavoriteTap: () async => await vm.onToggleFavorite(device),
-                              onTap: () async => await vm.onTapDevice(context, device),
-                            ),
-                    ),
-                  );
-                }),
-                const SizedBox(height: 30),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
-                  child: Consumer(
-                    builder: (context, ref) {
-                      final animations = ref.watch(animationProvider);
-                      return OpacitySlideshow(
-                        durationMillis: 6000,
-                        running: animations,
-                        children: [
-                          Text(
-                            t.sendTab.help,
-                            style: const TextStyle(color: Colors.grey),
-                            textAlign: TextAlign.center,
-                          ),
-                          if (checkPlatformCanReceiveShareIntent())
-                            Text(
-                              t.sendTab.shareIntentInfo,
-                              style: const TextStyle(color: Colors.grey),
-                              textAlign: TextAlign.center,
-                            ),
-                        ],
-                      );
-                    },
+                ),
+                const SizedBox(width: 10),
+                ScanButton(
+                  ips: widget.vm.localIps,
+                ),
+                Tooltip(
+                  message: t.dialogs.addressInput.title,
+                  child: CustomIconButton(
+                    onPressed: () async => widget.vm.onTapAddress(context),
+                    child: const Icon(Icons.list_rounded),
                   ),
                 ),
-                const SizedBox(height: 50),
+                Tooltip(
+                  message: t.dialogs.favoriteDialog.title,
+                  child: CustomIconButton(
+                    onPressed: () async => await widget.vm.onTapFavorite(context),
+                    child: const Icon(Icons.favorite),
+                  ),
+                ),
               ],
             ),
-          ),
-        );
-      },
+            if (widget.vm.nearbyDevices.isEmpty)
+              const Padding(
+                padding: EdgeInsets.only(
+                  bottom: 10,
+                  left: _horizontalPadding,
+                  right: _horizontalPadding,
+                ),
+                child: Opacity(
+                  opacity: 0.3,
+                  child: DevicePlaceholderListTile(),
+                ),
+              ),
+            ...widget.vm.nearbyDevices.map((device) {
+              final favoriteEntry = widget.vm.favoriteDevices
+                  .firstWhereOrNull((e) => e.fingerprint == device.fingerprint);
+              return Padding(
+                padding: const EdgeInsets.only(
+                  bottom: 10,
+                  left: _horizontalPadding,
+                  right: _horizontalPadding,
+                ),
+                child: Hero(
+                  tag: 'device-${device.ip}',
+                  child: widget.vm.sendMode == SendMode.multiple
+                      ? MultiSendDeviceListTile(
+                          device: device,
+                          isFavorite: favoriteEntry != null,
+                          nameOverride: favoriteEntry?.alias,
+                          vm: widget.vm,
+                        )
+                      : DeviceListTile(
+                          device: device,
+                          isFavorite: favoriteEntry != null,
+                          nameOverride: favoriteEntry?.alias,
+                          onFavoriteTap: () async => await widget.vm.onToggleFavorite(device),
+                          onTap: () async => await widget.vm.onTapDevice(context, device),
+                        ),
+                ),
+              );
+            }),
+            const SizedBox(height: 30),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+              child: Consumer(
+                builder: (context, ref) {
+                  final animations = ref.watch(animationProvider);
+                  return OpacitySlideshow(
+                    durationMillis: 6000,
+                    running: animations,
+                    children: [
+                      Text(
+                        t.sendTab.help,
+                        style: const TextStyle(color: Colors.grey),
+                        textAlign: TextAlign.center,
+                      ),
+                      if (checkPlatformCanReceiveShareIntent())
+                        Text(
+                          t.sendTab.shareIntentInfo,
+                          style: const TextStyle(color: Colors.grey),
+                          textAlign: TextAlign.center,
+                        ),
+                    ],
+                  );
+                },
+              ),
+            ),
+            const SizedBox(height: 50),
+          ],
+        ),
+      ),
     );
   }
 }

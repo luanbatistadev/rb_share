@@ -16,8 +16,9 @@ final _options = FilePickerOption.getOptionsForPlatform();
 
 class ChooseFiles extends StatefulWidget {
   final VoidCallback callback;
+  final SendTabVm vm;
 
-  const ChooseFiles({super.key, required this.callback});
+  const ChooseFiles({super.key, required this.callback, required this.vm});
 
   @override
   State<ChooseFiles> createState() => _ChooseFilesState();
@@ -28,150 +29,139 @@ class _ChooseFilesState extends State<ChooseFiles> {
   Widget build(BuildContext context) {
     final badgeColor = Theme.of(context).colorScheme.secondaryContainer;
 
-    return ViewModelBuilder(
-      provider: sendTabVmProvider,
-      init: (context, ref) {
-        // ignore: discarded_futures
-        ref.dispatchAsync(SendTabInitAction(context));
-      },
-      builder: (context, vm) {
-        final ref = context.ref;
-        return Scaffold(
-          floatingActionButton: vm.selectedFiles.isEmpty
-              ? null
-              : FloatingActionButton(
-                  onPressed: widget.callback,
-                  backgroundColor: badgeColor,
-                  child: const Icon(Icons.arrow_forward_rounded),
+    final ref = context.ref;
+    return Scaffold(
+      floatingActionButton: widget.vm.selectedFiles.isEmpty
+          ? null
+          : FloatingActionButton(
+              onPressed: widget.callback,
+              backgroundColor: badgeColor,
+              child: const Icon(Icons.arrow_forward_rounded),
+            ),
+      body: Center(
+        child: ResponsiveListView(
+          padding: EdgeInsets.zero,
+          children: [
+            const SizedBox(height: 20),
+            if (widget.vm.selectedFiles.isEmpty) ...[
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
+                child: Text(
+                  t.sendTab.selection.title,
+                  style: Theme.of(context).textTheme.titleMedium,
                 ),
-          body: Center(
-            child: ResponsiveListView(
-              padding: EdgeInsets.zero,
-              children: [
-                const SizedBox(height: 20),
-                if (vm.selectedFiles.isEmpty) ...[
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: _horizontalPadding),
-                    child: Text(
-                      t.sendTab.selection.title,
-                      style: Theme.of(context).textTheme.titleMedium,
-                    ),
-                  ),
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
-                      children: [
-                        const SizedBox(width: 10),
-                        ..._options.map((option) {
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 5),
-                            child: BigButton(
-                              icon: option.icon,
-                              label: option.label,
-                              filled: false,
-                              onTap: () async => ref.dispatchAsync(
-                                PickFileAction(
-                                  option: option,
-                                  context: context,
-                                ),
-                              ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                child: Wrap(
+                  children: [
+                    ..._options.map((option) {
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 5),
+                        child: BigButton(
+                          icon: option.icon,
+                          label: option.label,
+                          filled: false,
+                          onTap: () async => ref.dispatchAsync(
+                            PickFileAction(
+                              option: option,
+                              context: context,
                             ),
-                          );
-                        }),
-                        const SizedBox(width: 10),
-                      ],
-                    ),
-                  ),
-                ] else ...[
-                  Card(
-                    margin: const EdgeInsets.only(
-                      bottom: 10,
-                      left: _horizontalPadding,
-                      right: _horizontalPadding,
-                    ),
-                    child: Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                          ),
+                        ),
+                      );
+                    }),
+                  ],
+                ),
+              ),
+            ] else ...[
+              Card(
+                margin: const EdgeInsets.only(
+                  bottom: 10,
+                  left: _horizontalPadding,
+                  right: _horizontalPadding,
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(15),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        t.sendTab.selection.title,
+                        style: Theme.of(context).textTheme.titleMedium,
+                      ),
+                      const SizedBox(height: 5),
+                      Text(t.sendTab.selection.files(files: widget.vm.selectedFiles.length)),
+                      Text(
+                        t.sendTab.selection.size(
+                          size: widget.vm.selectedFiles
+                              .fold(0, (prev, curr) => prev + curr.size)
+                              .asReadableFileSize,
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      SizedBox(
+                        height: defaultThumbnailSize,
+                        child: ListView.builder(
+                          scrollDirection: Axis.horizontal,
+                          itemCount: widget.vm.selectedFiles.length,
+                          itemBuilder: (context, index) {
+                            final file = widget.vm.selectedFiles[index];
+                            return Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: SmartFileThumbnail.fromCrossFile(file),
+                            );
+                          },
+                        ),
+                      ),
+                      const SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
                         children: [
-                          Text(
-                            t.sendTab.selection.title,
-                            style: Theme.of(context).textTheme.titleMedium,
-                          ),
-                          const SizedBox(height: 5),
-                          Text(t.sendTab.selection.files(files: vm.selectedFiles.length)),
-                          Text(
-                            t.sendTab.selection.size(
-                              size: vm.selectedFiles
-                                  .fold(0, (prev, curr) => prev + curr.size)
-                                  .asReadableFileSize,
+                          TextButton(
+                            style: TextButton.styleFrom(
+                              foregroundColor: Theme.of(context).colorScheme.onSurface,
                             ),
+                            onPressed: () async {
+                              await context.push(() => const SelectedFilesPage());
+                            },
+                            child: Text(t.general.edit),
                           ),
-                          const SizedBox(height: 10),
-                          SizedBox(
-                            height: defaultThumbnailSize,
-                            child: ListView.builder(
-                              scrollDirection: Axis.horizontal,
-                              itemCount: vm.selectedFiles.length,
-                              itemBuilder: (context, index) {
-                                final file = vm.selectedFiles[index];
-                                return Padding(
-                                  padding: const EdgeInsets.only(right: 10),
-                                  child: SmartFileThumbnail.fromCrossFile(file),
-                                );
-                              },
+                          const SizedBox(width: 15),
+                          ElevatedButton.icon(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: Theme.of(context).colorScheme.primary,
+                              foregroundColor: Theme.of(context).colorScheme.onPrimary,
                             ),
-                          ),
-                          const SizedBox(height: 10),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.end,
-                            children: [
-                              TextButton(
-                                style: TextButton.styleFrom(
-                                  foregroundColor: Theme.of(context).colorScheme.onSurface,
-                                ),
-                                onPressed: () async {
-                                  await context.push(() => const SelectedFilesPage());
-                                },
-                                child: Text(t.general.edit),
-                              ),
-                              const SizedBox(width: 15),
-                              ElevatedButton.icon(
-                                style: ElevatedButton.styleFrom(
-                                  backgroundColor: Theme.of(context).colorScheme.primary,
-                                  foregroundColor: Theme.of(context).colorScheme.onPrimary,
-                                ),
-                                onPressed: () async {
-                                  if (_options.length == 1) {
-                                    // open directly
-                                    await ref.dispatchAsync(
-                                      PickFileAction(
-                                        option: _options.first,
-                                        context: context,
-                                      ),
-                                    );
-                                    return;
-                                  }
-                                  await AddFileDialog.open(
+                            onPressed: () async {
+                              if (_options.length == 1) {
+                                // open directly
+                                await ref.dispatchAsync(
+                                  PickFileAction(
+                                    option: _options.first,
                                     context: context,
-                                    options: _options,
-                                  );
-                                },
-                                icon: const Icon(Icons.add),
-                                label: Text(t.general.add),
-                              ),
-                            ],
+                                  ),
+                                );
+                                return;
+                              }
+                              await AddFileDialog.open(
+                                context: context,
+                                options: _options,
+                              );
+                            },
+                            icon: const Icon(Icons.add),
+                            label: Text(t.general.add),
                           ),
                         ],
                       ),
-                    ),
+                    ],
                   ),
-                ],
-              ],
-            ),
-          ),
-        );
-      },
+                ),
+              ),
+            ],
+          ],
+        ),
+      ),
     );
   }
 }

@@ -57,10 +57,10 @@ final sendTabVmProvider = ViewProvider((ref) {
 
   return SendTabVm(
     sendMode: sendMode,
-    selectedFiles: selectedFiles,
-    localIps: localIps,
+    selectedFiles: selectedFiles.toList(),
+    localIps: localIps.toList(),
     nearbyDevices: nearbyDevices,
-    favoriteDevices: favoriteDevices,
+    favoriteDevices: favoriteDevices.toList(),
     onTapAddress: (context) async {
       final files = ref.read(selectedSendingFilesProvider);
       if (files.isEmpty) {

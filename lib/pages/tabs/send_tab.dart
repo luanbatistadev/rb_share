@@ -355,7 +355,7 @@ class ScanButton extends StatelessWidget {
             context.redux(nearbyDevicesProvider).dispatch(ClearFoundDevicesAction());
             await context.ref.dispatchAsync(StartSmartScan(forceLegacy: true));
           },
-          child: Icon(Icons.sync, color: iconColor),
+          child: Icon(Icons.sync_rounded, color: iconColor),
         ),
       );
     }

@@ -10,8 +10,8 @@ String generateRandomAlias() {
 List<String> names = [
   'Kauan',
   'Adriani',
-  'André',
   'Guilherme C.',
+  'André',
   'Fogaça',
   'Raul',
   'Carlos',
