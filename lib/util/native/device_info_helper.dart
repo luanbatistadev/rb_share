@@ -1,8 +1,6 @@
 import 'package:common/common.dart';
 import 'package:device_info_plus/device_info_plus.dart';
 import 'package:flutter/foundation.dart';
-import 'package:slang/builder/model/enums.dart';
-import 'package:slang/builder/utils/string_extensions.dart';
 
 class DeviceInfoResult {
   final DeviceType deviceType;
@@ -46,7 +44,7 @@ Future<DeviceInfoResult> getDeviceInfo() async {
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
         final deviceInfo = await plugin.androidInfo;
-        deviceModel = deviceInfo.brand.toCase(CaseStyle.pascal);
+        deviceModel = toPascalCase(deviceInfo.brand);
         androidSdkInt = deviceInfo.version.sdkInt;
         break;
       case TargetPlatform.iOS:
@@ -74,7 +72,6 @@ Future<DeviceInfoResult> getDeviceInfo() async {
     androidSdkInt: androidSdkInt,
   );
 }
-
 extension on BrowserName {
   String? get humanName {
     switch (this) {
@@ -96,4 +93,12 @@ extension on BrowserName {
         return null;
     }
   }
+}
+
+String toPascalCase(String text) {
+  return text.splitMapJoin(
+    RegExp(r'[_\s]+'),
+    onMatch: (_) => '',
+    onNonMatch: (s) => s.isNotEmpty ? '${s[0].toUpperCase()}${s.substring(1).toLowerCase()}' : '',
+  );
 }
