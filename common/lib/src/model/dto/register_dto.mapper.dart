@@ -105,7 +105,7 @@ mixin RegisterDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             RegisterDtoMapper.ensureInitialized()
-                .isValueEqual(this as RegisterDto, other));
+                .equalsValue(this as RegisterDto, other));
   }
 
   @override

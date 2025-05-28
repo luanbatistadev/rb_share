@@ -73,7 +73,7 @@ mixin IsolateCommonStateMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             IsolateCommonStateMapper.ensureInitialized()
-                .isValueEqual(this as IsolateCommonState, other));
+                .equalsValue(this as IsolateCommonState, other));
   }
 
   @override

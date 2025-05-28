@@ -79,7 +79,7 @@ mixin IsolateChildStateMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             IsolateChildStateMapper.ensureInitialized()
-                .isValueEqual(this as IsolateChildState, other));
+                .equalsValue(this as IsolateChildState, other));
   }
 
   @override

@@ -161,7 +161,7 @@ mixin MulticastDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             MulticastDtoMapper.ensureInitialized()
-                .isValueEqual(this as MulticastDto, other));
+                .equalsValue(this as MulticastDto, other));
   }
 
   @override

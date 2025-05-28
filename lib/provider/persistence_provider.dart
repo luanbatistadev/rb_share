@@ -75,7 +75,7 @@ final persistenceProvider = Provider<PersistenceService>((ref) {
 class PersistenceService {
   final SharedPreferences _prefs;
 
-  PersistenceService._(this._prefs);
+  PersistenceService(this._prefs);
 
   static Future<PersistenceService> initialize(DynamicColors? dynamicColors) async {
     SharedPreferences prefs;
@@ -140,7 +140,7 @@ class PersistenceService {
       }
     }
 
-    return PersistenceService._(prefs);
+    return PersistenceService(prefs);
   }
 
   static Future<void> _initColorSetting(SharedPreferences prefs, bool supportsDynamicColors) async {

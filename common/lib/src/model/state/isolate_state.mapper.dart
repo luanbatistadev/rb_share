@@ -75,7 +75,7 @@ mixin IsolateStateMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             IsolateStateMapper.ensureInitialized()
-                .isValueEqual(this as IsolateState, other));
+                .equalsValue(this as IsolateState, other));
   }
 
   @override

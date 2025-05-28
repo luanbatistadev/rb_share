@@ -88,7 +88,7 @@ mixin StoredSecurityContextMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             StoredSecurityContextMapper.ensureInitialized()
-                .isValueEqual(this as StoredSecurityContext, other));
+                .equalsValue(this as StoredSecurityContext, other));
   }
 
   @override

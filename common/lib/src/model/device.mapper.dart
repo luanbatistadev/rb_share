@@ -160,7 +160,7 @@ mixin DeviceMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             DeviceMapper.ensureInitialized()
-                .isValueEqual(this as Device, other));
+                .equalsValue(this as Device, other));
   }
 
   @override

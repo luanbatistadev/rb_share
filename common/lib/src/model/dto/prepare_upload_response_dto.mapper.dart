@@ -78,7 +78,7 @@ mixin PrepareUploadResponseDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             PrepareUploadResponseDtoMapper.ensureInitialized()
-                .isValueEqual(this as PrepareUploadResponseDto, other));
+                .equalsValue(this as PrepareUploadResponseDto, other));
   }
 
   @override

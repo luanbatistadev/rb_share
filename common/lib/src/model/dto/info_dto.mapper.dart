@@ -92,7 +92,7 @@ mixin InfoDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             InfoDtoMapper.ensureInitialized()
-                .isValueEqual(this as InfoDto, other));
+                .equalsValue(this as InfoDto, other));
   }
 
   @override

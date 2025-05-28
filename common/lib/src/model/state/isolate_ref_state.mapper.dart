@@ -79,7 +79,7 @@ mixin IsolateRefStateMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             IsolateRefStateMapper.ensureInitialized()
-                .isValueEqual(this as IsolateRefState, other));
+                .equalsValue(this as IsolateRefState, other));
   }
 
   @override

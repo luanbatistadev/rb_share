@@ -87,7 +87,7 @@ mixin ReceiveRequestResponseDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             ReceiveRequestResponseDtoMapper.ensureInitialized()
-                .isValueEqual(this as ReceiveRequestResponseDto, other));
+                .equalsValue(this as ReceiveRequestResponseDto, other));
   }
 
   @override

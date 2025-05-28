@@ -79,7 +79,7 @@ mixin IsolateSyncDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             IsolateSyncDtoMapper.ensureInitialized()
-                .isValueEqual(this as IsolateSyncDto, other));
+                .equalsValue(this as IsolateSyncDto, other));
   }
 
   @override

@@ -79,7 +79,7 @@ mixin PrepareUploadRequestDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             PrepareUploadRequestDtoMapper.ensureInitialized()
-                .isValueEqual(this as PrepareUploadRequestDto, other));
+                .equalsValue(this as PrepareUploadRequestDto, other));
   }
 
   @override

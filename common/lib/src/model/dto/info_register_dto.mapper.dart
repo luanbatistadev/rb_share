@@ -107,7 +107,7 @@ mixin InfoRegisterDtoMappable {
     return identical(this, other) ||
         (runtimeType == other.runtimeType &&
             InfoRegisterDtoMapper.ensureInitialized()
-                .isValueEqual(this as InfoRegisterDto, other));
+                .equalsValue(this as InfoRegisterDto, other));
   }
 
   @override
