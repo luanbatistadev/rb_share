@@ -27,6 +27,7 @@ List<String> names = [
   'Marco',
   'J. Lucas',
   'Gilberto',
+  'Wesley',
   'Katia',
   'Luccão',
 ];
